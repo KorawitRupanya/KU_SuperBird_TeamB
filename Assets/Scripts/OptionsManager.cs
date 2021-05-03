@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class OptionsManager : MonoBehaviour
+public class OptionsManager : MonoSingleton<OptionsManager>
 {
     public AudioMixer mixer;
     public Slider sliderSFX;

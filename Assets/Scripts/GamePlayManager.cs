@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class GamePlayManager : MonoBehaviour
+public class GamePlayManager  : MonoBehaviour
 {
     public GameObject pipePrfab;
     public GameObject birdPrefab;
     public float pipeSpacing = 1f;
     public float pipeRange = 0.5f;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         LevelGenerator();
