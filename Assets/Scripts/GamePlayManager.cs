@@ -11,22 +11,27 @@ public class GamePlayManager  : MonoBehaviour
     [SerializeField] private GameObject pipePrfab;
     [SerializeField] private GameObject moveAblePipePrefab;
     [SerializeField] private GameObject birdPrefab;
+    [SerializeField] private GameObject foodPrefab;
     [SerializeField] private float pipeSpacing = 1f;
     [SerializeField] private float pipeRange = 0.5f;
     [SerializeField] private int pipeThreshold = 20;
     [SerializeField] private int levelExtract = 20;
+    [SerializeField] private int foodSpawnChance = 10;
 
     private Dictionary<int, GameObject> createdPipe;
+    private List<GameObject> createdFood;
     private int currentPipe;
     private int lastPipe;
     private int score;
     private float currentMovePipeChance;
+ 
     private void Awake()
     {
         Instance = this;
     }
     void Start()
     {
+        createdFood = new List<GameObject>();
         createdPipe = new Dictionary<int, GameObject>();
         currentPipe = 0;
         lastPipe = 0;
@@ -39,7 +44,7 @@ public class GamePlayManager  : MonoBehaviour
     {
         
     }
-    public void OnScoreInscrese()
+    public void OnScoreIncrease()
     {
         Debug.Log("Current = " + currentPipe + " Last = " + lastPipe);
         if(score%5 == 0)
@@ -70,10 +75,20 @@ public class GamePlayManager  : MonoBehaviour
         {
             ob = moveAblePipePrefab;
         }
+        if(Random.Range(0, 100) < foodSpawnChance || true)
+        {
+            Vector3 foodPos = new Vector3(posX / 2, Random.Range(-pipeRange, pipeRange), 0);
+            SpawnFood(foodPos);
+        }
         Vector3 newPos = new Vector3(posX, Random.Range(-pipeRange, pipeRange), 0);
         GameObject pipe = Instantiate(ob, newPos, Quaternion.identity);
         createdPipe.Add(currentPipe, pipe);
         currentPipe++;
+    }
+    private void SpawnFood(Vector3 pos)
+    {
+        GameObject tmp = Instantiate(foodPrefab, pos, Quaternion.identity);
+        createdFood.Add(tmp);
     }
     private void RemoveLastPipe()
     {
@@ -86,7 +101,7 @@ public class GamePlayManager  : MonoBehaviour
     {
         Debug.Log("score added");
         score += amount;
-        OnScoreInscrese();
+        OnScoreIncrese();
     }
     public void GameOver()
     {

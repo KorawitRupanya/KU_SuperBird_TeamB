@@ -6,7 +6,7 @@ public class BirdController : MonoBehaviour
 {
     Rigidbody rb;
     public float jumpPower = 3f;
-    public float moveSpeed = 0f;
+    public float moveSpeed = 0.5f;
 
     public bool isFirstFire = false;
 
@@ -33,10 +33,6 @@ public class BirdController : MonoBehaviour
         }
         if (isFirstFire == true)
             rb.AddForce(Vector3.right * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
-    }
-    public void AddSpeed()
-    {
-        rb.AddForce(Vector3.right * moveSpeed, ForceMode.VelocityChange);
     }
     private void OnCollisionEnter(Collision collision)
     {
