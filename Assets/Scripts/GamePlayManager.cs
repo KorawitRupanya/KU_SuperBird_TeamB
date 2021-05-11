@@ -6,10 +6,12 @@ using Random = UnityEngine.Random;
 
 public class GamePlayManager  : MonoBehaviour
 {
-    public GameObject pipePrfab;
+    public GameObject pipePrefab;
+    public GameObject moveAblePipePrefab;
     public GameObject birdPrefab;
-    public float pipeSpacing = 1f;
-    public float pipeRange = 0.5f;
+    public float pipeSpacing = 2f;
+    public float pipeRange = 1f;
+    public int levelExtract = 20;
     
     void Start()
     {
@@ -24,9 +26,18 @@ public class GamePlayManager  : MonoBehaviour
 
     void LevelGenerator()
     {
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 30; i++)
         {
-            var pipe = Instantiate(pipePrfab);
+
+            GameObject pipe;
+            if (i >= levelExtract)
+            {
+                pipe = Instantiate(moveAblePipePrefab);
+            }
+            else
+            {
+                pipe = Instantiate(pipePrefab);
+            }
             pipe.transform.position = new Vector3(i * pipeSpacing, Random.Range(-pipeRange, pipeRange), 0);
         }
     }
