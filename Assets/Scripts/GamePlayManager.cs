@@ -9,15 +9,18 @@ public class GamePlayManager  : MonoBehaviour
     public static GamePlayManager Instance;
 
     [SerializeField] private GameObject pipePrfab;
+    [SerializeField] private GameObject moveAblePipePrefab;
     [SerializeField] private GameObject birdPrefab;
     [SerializeField] private float pipeSpacing = 1f;
     [SerializeField] private float pipeRange = 0.5f;
     [SerializeField] private int pipeThreshold = 20;
+    [SerializeField] private int levelExtract = 20;
 
     private Dictionary<int, GameObject> createdPipe;
     private int currentPipe;
     private int lastPipe;
     private int score;
+    private float currentMovePipeChance;
     private void Awake()
     {
         Instance = this;
@@ -28,6 +31,7 @@ public class GamePlayManager  : MonoBehaviour
         currentPipe = 0;
         lastPipe = 0;
         score = 0;
+        currentMovePipeChance = 0;
         LevelGenerator();
     }
     // Update is called once per frame
@@ -38,6 +42,10 @@ public class GamePlayManager  : MonoBehaviour
     public void OnScoreInscrese()
     {
         Debug.Log("Current = " + currentPipe + " Last = " + lastPipe);
+        if(score%5 == 0)
+        {
+            currentMovePipeChance += 5;
+        }
         if ((score + pipeThreshold/2) > currentPipe)
         {
             GenerateOnePillar(currentPipe * pipeSpacing);
@@ -57,8 +65,13 @@ public class GamePlayManager  : MonoBehaviour
     }
     private void GenerateOnePillar(float posX)
     {
+        GameObject ob = pipePrfab;
+        if(currentMovePipeChance > 100 || Random.Range(0, 100) < currentMovePipeChance)
+        {
+            ob = moveAblePipePrefab;
+        }
         Vector3 newPos = new Vector3(posX, Random.Range(-pipeRange, pipeRange), 0);
-        GameObject pipe = Instantiate(pipePrfab, newPos, Quaternion.identity);
+        GameObject pipe = Instantiate(ob, newPos, Quaternion.identity);
         createdPipe.Add(currentPipe, pipe);
         currentPipe++;
     }
