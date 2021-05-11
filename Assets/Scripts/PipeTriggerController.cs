@@ -9,6 +9,7 @@ public class PipeTriggerController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             GamePlayManager.Instance.AddScore(1);
+            SFXController.Instance.PlayPass();
         }
     }
 }

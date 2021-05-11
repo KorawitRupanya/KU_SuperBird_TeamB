@@ -11,6 +11,7 @@ public class FoodController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             GamePlayManager.Instance.AddScore(score);
+            SFXController.Instance.PlayBonus();
             GamePlayManager.Instance.DeleteFood(this);
         }
         

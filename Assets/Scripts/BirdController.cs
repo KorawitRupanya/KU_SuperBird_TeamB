@@ -30,6 +30,7 @@ public class BirdController : MonoBehaviour
                 isFirstFire = true;
             }
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            SFXController.Instance.PlayJump();
         }
         if (isFirstFire == true)
             rb.AddForce(Vector3.right * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);

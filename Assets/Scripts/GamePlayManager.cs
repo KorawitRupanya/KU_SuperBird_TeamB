@@ -12,7 +12,6 @@ public class GamePlayManager  : MonoBehaviour
     [SerializeField] private GameObject pipePrfab;
     [SerializeField] private GameObject moveAblePipePrefab;
     [SerializeField] private GameObject birdPrefab;
-    [SerializeField] private GameObject foodPrefab;
     [SerializeField] private GameObject tresschuck;
     [SerializeField] private GameObject planeblock;
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -25,6 +24,7 @@ public class GamePlayManager  : MonoBehaviour
     [SerializeField] private int pipeThreshold = 20;
     [SerializeField] private int levelExtract = 20;
     [SerializeField] private int foodSpawnChance = 10;
+    [SerializeField] private List<GameObject> foodPrefabs;
 
     private Dictionary<int, GameObject> createdPipe;
     private List<GameObject> createdFood;
@@ -94,7 +94,7 @@ public class GamePlayManager  : MonoBehaviour
         Vector3 newPos = new Vector3(posX, Random.Range(-pipeRange, pipeRange), 0);
         GameObject pipe = Instantiate(ob, newPos, Quaternion.identity, pipeHolder);
         GameObject tree = Instantiate(tresschuck, decorateHolder);
-        tree.transform.position = new Vector3(posX * Random.Range(-5, 20), -5, 6);
+        tree.transform.position = new Vector3(posX, -5, 6);
         createdPipe.Add(currentPipe, pipe);
         currentPipe++;
     }
@@ -107,7 +107,7 @@ public class GamePlayManager  : MonoBehaviour
     }
     private void SpawnFood(Vector3 pos)
     {
-        GameObject tmp = Instantiate(foodPrefab, pos, Quaternion.identity, foodHolder);
+        GameObject tmp = Instantiate(foodPrefabs[Random.Range(0,foodPrefabs.Count)], pos, Quaternion.identity, foodHolder);
         createdFood.Add(tmp);
     }
     public void DeleteFood(FoodController food)
@@ -126,6 +126,7 @@ public class GamePlayManager  : MonoBehaviour
     }
     public void GameOver()
     {
+        SFXController.Instance.PlayFail();
         Debug.Log("GameOver");
     }
 }
