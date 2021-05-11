@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using Random = UnityEngine.Random;
 
@@ -25,6 +26,8 @@ public class GamePlayManager  : MonoBehaviour
     [SerializeField] private int levelExtract = 20;
     [SerializeField] private int foodSpawnChance = 10;
     [SerializeField] private List<GameObject> foodPrefabs;
+    [SerializeField] private GameObject pauseCanvasObject;
+    [SerializeField] private GameObject loseCanvasObject;
 
     private Dictionary<int, GameObject> createdPipe;
     private List<GameObject> createdFood;
@@ -32,6 +35,8 @@ public class GamePlayManager  : MonoBehaviour
     private int lastPipe;
     private int score;
     private float currentMovePipeChance;
+    private bool isPause;
+    private bool isEnd;
  
     private void Awake()
     {
@@ -45,12 +50,29 @@ public class GamePlayManager  : MonoBehaviour
         lastPipe = 0;
         score = 0;
         currentMovePipeChance = 0;
+        isPause = false;
+        isEnd = false;
+        pauseCanvasObject.SetActive(isPause);
+        loseCanvasObject.SetActive(isEnd);
         LevelGenerator();
+        GamePauseManager.instance.ResumeGame();
     }
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape) && isEnd == false)
+        {
+            if (isPause)
+            {
+                GamePauseManager.instance.ResumeGame();
+            }
+            else
+            {
+                GamePauseManager.instance.PauseGame();
+            }
+            isPause = !isPause;
+            pauseCanvasObject.SetActive(isPause);
+        }
     }
     public void DisplayText()
     {
@@ -86,7 +108,7 @@ public class GamePlayManager  : MonoBehaviour
         {
             ob = moveAblePipePrefab;
         }
-        if(Random.Range(0, 100) < foodSpawnChance)
+        if(Random.Range(1, 100) < foodSpawnChance)
         {
             Vector3 foodPos = new Vector3(posX - (pipeSpacing/2), Random.Range(-pipeRange, pipeRange), 0);
             SpawnFood(foodPos);
@@ -126,7 +148,27 @@ public class GamePlayManager  : MonoBehaviour
     }
     public void GameOver()
     {
+        if (isEnd == true) return;
+        if(PlayerPrefs.GetInt("HighScore", 0) < score )
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+        }
         SFXController.Instance.PlayFail();
-        Debug.Log("GameOver");
+
+        GamePauseManager.instance.PauseGame();
+        isEnd = true;
+        loseCanvasObject.SetActive(isEnd);
+        GameObject.Find("High Score Text").GetComponent<UnityEngine.UI.Text>().text = "Your High Score: " + PlayerPrefs.GetInt("HighScore", 0);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single) ;
+    }
+
+    public void MainMemu()
+    {
+
+        SceneManager.LoadScene("HomeScene");
     }
 }

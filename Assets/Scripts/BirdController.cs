@@ -10,6 +10,9 @@ public class BirdController : MonoBehaviour
 
     public bool isFirstFire = false;
 
+    public int ceilingPoint = 5;
+    public int basePoint = -3;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,6 +25,10 @@ public class BirdController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameObject.transform.position.y > 5 || gameObject.transform.position.y < -3)
+        {
+            GamePlayManager.Instance.GameOver();
+        }
         if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.Space))
         {
             if(isFirstFire == false)
@@ -29,8 +36,10 @@ public class BirdController : MonoBehaviour
                 rb.useGravity = true;
                 isFirstFire = true;
             }
-            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            SFXController.Instance.PlayJump();
+            else
+            {
+                rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            }
         }
         if (isFirstFire == true)
             rb.AddForce(Vector3.right * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
