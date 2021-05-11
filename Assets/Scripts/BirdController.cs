@@ -6,7 +6,7 @@ public class BirdController : MonoBehaviour
 {
     Rigidbody rb;
     public float jumpPower = 3f;
-    public float moveSpeed = 1f;
+    public float moveSpeed = 0.5f;
 
     public bool isFirstFire = false;
 
@@ -30,8 +30,16 @@ public class BirdController : MonoBehaviour
                 isFirstFire = true;
             }
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            SFXController.Instance.PlayJump();
         }
         if (isFirstFire == true)
             rb.AddForce(Vector3.right * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Pipes"))
+        {
+            GamePlayManager.Instance.GameOver();
+        }
     }
 }
