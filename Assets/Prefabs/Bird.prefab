@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 4508316972713518126}
   m_Layer: 0
   m_Name: Bird
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3ac59743776f6419f09d249b74da9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 3
+  jumpPower: 4
   moveSpeed: 1
 --- !u!54 &4508316972713518126
 Rigidbody:

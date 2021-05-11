@@ -24,4 +24,11 @@ public class BirdController : MonoBehaviour
         }
         rb.AddForce(Vector3.right * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Pipes"))
+        {
+            GamePlayManager.Instance.GameOver();
+        }
+    }
 }
