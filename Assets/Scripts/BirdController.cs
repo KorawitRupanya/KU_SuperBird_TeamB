@@ -13,6 +13,8 @@ public class BirdController : MonoBehaviour
     public int ceilingPoint = 5;
     public int basePoint = -3;
 
+    int count;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -21,7 +23,10 @@ public class BirdController : MonoBehaviour
 
         rb.useGravity = false;
     }
-
+    private void Start()
+    {
+        count = 0;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -41,7 +46,9 @@ public class BirdController : MonoBehaviour
                 rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             }
         }
-        if (isFirstFire == true)
+        count++;
+        Debug.Log(count);
+        if (isFirstFire == true && count < 3000)
             rb.AddForce(Vector3.right * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
     }
     private void OnCollisionEnter(Collision collision)
