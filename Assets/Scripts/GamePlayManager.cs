@@ -108,7 +108,7 @@ public class GamePlayManager  : MonoBehaviour
         {
             ob = moveAblePipePrefab;
         }
-        if(Random.Range(1, 100) < foodSpawnChance)
+        if(Random.Range(0, 100) < foodSpawnChance)
         {
             Vector3 foodPos = new Vector3(posX - (pipeSpacing/2), Random.Range(-pipeRange, pipeRange), 0);
             SpawnFood(foodPos);

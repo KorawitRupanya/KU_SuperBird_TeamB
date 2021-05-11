@@ -15,7 +15,7 @@ using UnityEngine.SceneManagement;
             SceneManager.LoadScene(name);
         }
 
-        public IEnumerator LoadSceneAsync(string name, Action finishAction)
+        public static IEnumerator LoadSceneAsync(string name, Action finishAction)
         {
             var async = SceneManager.LoadSceneAsync(name);
 
