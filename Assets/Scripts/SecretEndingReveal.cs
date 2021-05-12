@@ -19,7 +19,7 @@ public class SecretEndingReveal : MonoBehaviour
 
     private IEnumerator SecretSceneLoad()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(30);
         LoadSceneCoroutine("SecretEnding",null);
     }
     
